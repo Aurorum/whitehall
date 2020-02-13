@@ -22,15 +22,15 @@ class PublishingApiDocumentRepublishingWorkerTest < ActiveSupport::TestCase
       .with(draft_edition, "republish", false)
 
     invocation_order = sequence("invocation_order")
-    PublishingApiHtmlAttachmentsWorker
+    ServiceListeners::PublishingApiHtmlAttachments
       .any_instance
-      .expects(:perform)
-      .with(published_edition.id, "republish")
+      .expects(:process)
+      .with(published_edition, "republish")
       .in_sequence(invocation_order)
-    PublishingApiHtmlAttachmentsWorker
+    PublishingApiHtmlAttachments
       .any_instance
-      .expects(:perform)
-      .with(draft_edition.id, "republish")
+      .expects(:process)
+      .with(draft_edition, "republish")
       .in_sequence(invocation_order)
 
     PublishingApiDocumentRepublishingWorker.new.perform(document.id)
@@ -109,15 +109,15 @@ class PublishingApiDocumentRepublishingWorkerTest < ActiveSupport::TestCase
     unpublishing_worker.expects(:perform).with(published_edition.unpublishing.id, false)
 
     invocation_order = sequence("invocation_order")
-    PublishingApiHtmlAttachmentsWorker
+    PublishingApiHtmlAttachments
       .any_instance
-      .expects(:perform)
-      .with(published_edition.id, "republish")
+      .expects(:process)
+      .with(published_edition, "republish")
       .in_sequence(invocation_order)
-    PublishingApiHtmlAttachmentsWorker
+    PublishingApiHtmlAttachments
       .any_instance
-      .expects(:perform)
-      .with(published_edition.id, "republish")
+      .expects(:process)
+      .with(published_edition, "republish")
       .in_sequence(invocation_order)
 
     PublishingApiDocumentRepublishingWorker.new.perform(document.id)

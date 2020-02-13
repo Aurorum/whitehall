@@ -253,8 +253,6 @@ class AttachmentRedirectDueToUnpublishingIntegrationTest < ActionDispatch::Integ
           discard_drafts: true,
         )
         .once
-
-      PublishingApiHtmlAttachmentsWorker.drain
     end
 
     def refute_sets_redirect_url_in_asset_manager

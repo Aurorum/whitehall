@@ -133,8 +133,8 @@ private
   end
 
   def handle_attachments_for(edition)
-    PublishingApiHtmlAttachmentsWorker.new.perform(
-      edition.id,
+    ServiceListeners::PublishingApiHtmlAttachments.new.process(
+      edition,
       "republish",
     )
   end
